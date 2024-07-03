@@ -9,9 +9,14 @@ from sqlalchemy import engine
 sess = scoped_session(sessionmaker(bind=engine))
 
 
-@app.route("/")
+@app.route("/admin")
 def static_get():
     return app.send_static_file("index.html")
+
+
+@app.route("/student")
+def static_get_user():
+    return app.send_static_file("user.html")
 
 
 @app.route("/assets/<path:path>")
