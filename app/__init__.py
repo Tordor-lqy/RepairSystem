@@ -11,9 +11,6 @@ db.init_app(app)
 CORS(app, cors_allowed_origins="*")
 
 
-@app.route("/assets/<path:path>")
-def send_js(path):
-    return app.send_static_file("assets/" + path)
 
 
 def create_app():
