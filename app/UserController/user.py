@@ -3,13 +3,9 @@ from flask_cors import cross_origin
 from utils.Oauth import *
 from utils.JwtUtils import *
 from utils.WxPusher import *
+from flask import send_from_directory
 
 
-@app.route("/")
-@cross_origin()
-def static_get():
-    # return render_template('index.html')
-    return success(data=request.args)
 
 
 # --------------------------------------------------------------------------
