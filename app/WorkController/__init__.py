@@ -8,4 +8,3 @@ from sqlalchemy import engine
 
 sess = scoped_session(sessionmaker(bind=engine))
 
-from . import location, order, user, damage, worker, interceptor, admin

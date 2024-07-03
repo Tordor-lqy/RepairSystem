@@ -23,7 +23,7 @@ def handle_before_request():
     """在每次请求之前都被执行"""
     path = request.path
 
-    if request.method != "OPTIONS" and path.startswith("/user"):
+    if request.method != "OPTIONS" and (not path.startswith("/user/login")) and path.startswith("/user"):
         parse_jwt(request.headers.get('Authorization'))
 
     # if not is_allow_path(path) and not is_assets(path) and not is_static_file(path):

@@ -8,10 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config.mysql_uri
 db = SQLAlchemy()
 db.init_app(app)
 
-
-# @app.route("/")
-# def index():
-#     return app.send_static_file("index.html")
+CORS(app, cors_allowed_origins="*")
 
 
 @app.route("/assets/<path:path>")
@@ -22,5 +19,5 @@ def send_js(path):
 def create_app():
     with app.app_context():
         from . import routes
-    CORS(app, cors_allowed_origins="*")
+
     return app

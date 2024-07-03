@@ -2,6 +2,7 @@ from app.UserController import *
 from flask_cors import cross_origin
 from utils.Oauth import *
 from utils.JwtUtils import *
+from utils.WxPusher import *
 
 
 @app.route("/")
@@ -96,35 +97,39 @@ def get_final_location_by_two_location_all():
 @app.route('/user/add/order', methods=['POST'])
 @cross_origin()
 def add_order():
-    try:
-        data = request.get_json()
-        order = Order(final_location_id=data['final_location_id'],
-                      damage_type_id=data['damage_type_id'],
-                      damage_details=data['damage_details'],
-                      order_is_public=data['order_is_public'])
+    # try:
+    data = request.get_json()
+    order = Order(final_location_id=data['final_location_id'],
+                  damage_type_id=data['damage_type_id'],
+                  damage_details=data['damage_details'],
+                  order_is_public=data['order_is_public'])
 
-        # 获取user_id
-        res, payload = parse_jwt(request.headers['Authorization'])
-        order.user_id = payload.get("user_id")
+    # 获取user_id
+    payload = parse_jwt(request.headers['Authorization'])
+    order.user_id = payload.get("user_id")
 
-        # 获取位置信息
-        final_location = FinalLocation.query.filter_by(final_location_id=data['final_location_id']).first()
-        order.one_location_id = final_location.one_location_id
-        order.two_location_id = final_location.two_location_id
-        order.one_location_name = final_location.one_location_name
-        order.two_location_name = final_location.two_location_name
-        order.final_location_name = final_location.final_location_name
+    # 获取位置信息
+    final_location = FinalLocation.query.filter_by(final_location_id=data['final_location_id']).first()
+    order.one_location_id = final_location.one_location_id
+    order.two_location_id = final_location.two_location_id
+    order.one_location_name = final_location.one_location_name
+    order.two_location_name = final_location.two_location_name
+    order.final_location_name = final_location.final_location_name
 
-        # 获取故障类型信息
-        damage_type = DamageType.query.filter_by(damage_type_id=data['damage_type_id']).first()
-        order.damage_type_name = damage_type.damage_type_name
+    # 获取故障类型信息
+    damage_type = DamageType.query.filter_by(damage_type_id=data['damage_type_id']).first()
+    order.damage_type_name = damage_type.damage_type_name
 
-        db.session.add(order)
-        db.session.commit()
+    db.session.add(order)
+    db.session.commit()
 
-        return success(msg="提交成功")
-    except Exception as e:
-        return error(msg=str(e))
+    html = data_to_html(Order_schema.dump(order))
+    send_message(html)
+
+    return success(msg="提交成功")
+    # except Exception as e:
+    #
+    #     return error(msg=str(e))
 
 
 # --------------------------------------------------------------------------

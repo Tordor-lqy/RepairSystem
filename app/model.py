@@ -17,6 +17,7 @@ class DamageTypeSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = DamageType
         include_relationships = False
+        load_instance = True
 
 
 DamageType_schema = DamageTypeSchema()
@@ -152,3 +153,26 @@ class WorkerSchema(SQLAlchemyAutoSchema):
 
 Workers_schema = WorkerSchema(many=True)
 Worker_schema = WorkerSchema()
+
+
+class Admin(Base):
+    __tablename__ = 'xrrs_admin'
+    admin_id = Column(Integer, primary_key=True, autoincrement=True)
+    admin_name = Column(String(255), nullable=False)
+    admin_password = Column(String(255), nullable=False)
+    admin_is_henau = Column(String(255), nullable=False)
+    admin_openid = Column(String(255), nullable=False)
+    admin_phone = Column(String(255), nullable=False)
+    admin_henau = Column(String(255), nullable=False)
+    admin_is_super = Column(Integer, nullable=False)
+    admin_section = Column(String(255), nullable=False)
+
+
+class AdminSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Admin
+        include_relationships = False
+
+
+Admins_schema = AdminSchema(many=True)
+Admin_schema = AdminSchema()

@@ -7,6 +7,5 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy import engine
 
 
-def create_controller():
-    from . import user, interceptor
-    return app
+from . import user, interceptor
+

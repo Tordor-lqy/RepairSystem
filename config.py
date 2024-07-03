@@ -19,6 +19,15 @@ jwt_config = {
     "secretkey": "ehjfsdfvfksgfigwehfvkfhvksd"
 }
 
+jwt_admin_config = {
+    "secretkey": "dasdfsgdghdjtbhgktbhhbgjtbhtbb"
+}
+
+wx_push = {
+    "appToken": "AT_dI43q5dIoWc4JIjKnKmSZAboc9x6dxzX",
+    "TopicId": 31347
+}
+
 # --------------------------------------------------------------------------
 mysql_uri = (f"mysql+pymysql:/"
              f"/{mysql_config.get('user')}"

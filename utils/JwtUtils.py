@@ -1,6 +1,6 @@
 import jwt
 import datetime
-from config import jwt_config
+from config import jwt_config,jwt_admin_config
 from flask import abort
 from utils.Result import *
 
@@ -13,6 +13,21 @@ def create_jwt(payload):
 def parse_jwt(token):
     try:
         payload = jwt.decode(token, jwt_config['secretkey'], algorithms='HS256')
+    except jwt.ExpiredSignatureError:
+        abort(401, error(msg="令牌过期"))
+    except jwt.InvalidTokenError:
+        abort(401, error(msg="非法的令牌"))
+    return payload
+
+
+def create_admin_jwt(payload):
+    payload['exp'] = datetime.datetime.utcnow() + datetime.timedelta(days=1)
+    return jwt.encode(payload, jwt_admin_config['secretkey'], algorithm='HS256')
+
+
+def parse_admin_jwt(token):
+    try:
+        payload = jwt.decode(token, jwt_admin_config['secretkey'], algorithms='HS256')
     except jwt.ExpiredSignatureError:
         abort(401, error(msg="令牌过期"))
     except jwt.InvalidTokenError:

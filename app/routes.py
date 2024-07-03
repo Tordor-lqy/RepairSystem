@@ -1,4 +1,2 @@
-from app.UserController import create_controller
-
-# 导入API
-app = create_controller()
+from app.UserController import app
+from app.AdminController import app
